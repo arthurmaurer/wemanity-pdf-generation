@@ -1,0 +1,43 @@
+Détails des Contenus à Intégrer dans les PDF
+
+Le format PDF inclura plusieurs sections, avec une présentation en mode paysage. Voici les éléments principaux :
+
+    Informations de base : le mois de l'analyse, l'année, le nom du fournisseur.
+    Page d'introduction : chiffres clés comme le chiffre d'affaires (CA) total du mois précédent, nombre d'articles commandés, nombre de points de vente ayant commandé, et liste des magasins n’ayant pas commandé.
+    Analyses visuelles :
+        Histogrammes montrant le CA par point de vente avec distinction entre les ventes permanentes et les promotions.
+        Diagrammes circulaires pour la répartition géographique (ex. : Corse vs. France métropolitaine) et le type de magasin (drive, hypermarché, supermarché).
+        Top 20 des articles les plus vendus et les moins vendus, avec distinction entre quantité et CA.
+
+Pour ces visualisations, il est nécessaire de gérer de grandes quantités de données (jusqu'à 110 points de vente). Si le nombre de points de vente dépasse 50 ou 40, l'affichage devra se scinder en plusieurs
+visualisations pour une meilleure lisibilité. Des adaptations d'échelle pourraient également être nécessaires pour les histogrammes, notamment si les ventes des points de vente sont très inégales.
+
+
+Cas particuliers des analyses :
+
+    Promotions : certains magasins achètent seulement en cas de promotions (non permanentes). Le rapport doit permettre d’identifier ces comportements et de mettre en évidence les magasins qui n'achètent
+    qu’en période de promotions.
+    Échelle variable pour les visualisations : il faut prévoir des ajustements d’échelle pour les visualisations avec des écarts importants entre les quantités et les montants de CA, notamment pour les
+    produits onéreux comme le champagne ou le foie gras. Une option pourrait être d'afficher des valeurs différentes pour les axes gauche et droit.
+
+Besoin Technique et Autonomie Recherchée
+
+    Technologie : le client privilégie le langage Python, qu'il maîtrise pour les futures modifications et debugging, et GitLab pour le partage de code. Cependant, il reste ouvert à l’utilisation de
+    librairies ou packages différents si le rendu PDF final correspond aux attentes.
+    Autonomie et fiabilité : le client souhaite un développeur capable de travailler en toute autonomie et de manière réactive en cas de bugs. La mission doit se conclure pour fin novembre, pour un
+    déploiement en 2025. Le client veut éviter tout suivi serré du freelance et préfère un partenaire de confiance.
+
+
+
+-------
+
+
+Différence CM1 CM2 ?
+Est-ce qu'un CSV représente une seule période ? Si non, générer un PDF pour chaque période ?
+Gestion des pluriels ? (afficher ou pas les S selon le nombre)
+Autorisation de reformuler certains phrases ?
+UVC = quantité dans CM2 ?
+gestion de plusieurs magasins avec CA moins élevé (les lister ?)
+mois utilisé pour le top UVC ?
+
+Colonne CA : la virgule représente les décimales ou les milliers ?
