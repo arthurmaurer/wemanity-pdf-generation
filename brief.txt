@@ -41,3 +41,7 @@ gestion de plusieurs magasins avec CA moins élevé (les lister ?)
 mois utilisé pour le top UVC ?
 
 Colonne CA : la virgule représente les décimales ou les milliers ?
+Séparateur pour les milliers ?
+
+"Voici la liste des points de vente qui n’ont pas r´ealis´e de commande sur vos r´ef´erences le mois dernier : A, B, C."
+    -> comment savoir qui n'a pas commandé ? Un pdf est destiné à un seul fournisseur ? Si oui, comment le programme connaitra le fournisseur destinataire ?

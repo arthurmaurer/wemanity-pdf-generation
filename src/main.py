@@ -3,20 +3,21 @@ import jinja2
 from pprint import pprint
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 import math
 import utility
 
 
 variables = dict(
-    fournisseur = 'ABC',
+    fournisseur = 'Fournisseur ABC',
     periode = 'Avril à Juin',
     annee = 2024,
-    ca_mois = 123456,
-    nb_uvc_mois = 123,
-    nb_ref_mois = 123,
-    nb_magasin = 123,
+    ca_total_mois = None,
+    nb_uvc_mois = None,
+    nb_ref_mois = None,
+    nb_magasins = None,
     list_mag_nop = ['A', 'B', 'C'],
-    nom_contrat = 'ABC',
+    nom_contrat = 'Contrat ABC',
     date_contrat = '11 mars 2024',
 
     magasin_ca_plus_eleve = None,
@@ -24,11 +25,12 @@ variables = dict(
     magasin_uvc_plus_eleve = None,
     magasin_uvc_moins_eleve = None,
 
+    ca_par_localisation = None,
+
     assets = dict(
         ca = [],
     ),
 )
-
 
 
 # -------------------
@@ -45,7 +47,6 @@ env = jinja2.Environment(
 
 env.filters['number'] = utility.format_number
 
-
 # -------------------
 
 df = pd.read_csv(
@@ -59,6 +60,11 @@ df['ca'] = df['ca'].str.replace(',', '.').astype('float')
 
 # print(df)
 
+variables['ca_total_mois'] = df['ca'].sum()
+variables['nb_uvc_mois'] = df['quantite'].sum()
+variables['nb_ref_mois'] = df['article'].nunique()
+variables['nb_magasins'] = df['magasin'].nunique()
+
 ca_magasins = df.groupby(['magasin', 'nom_magasin'], as_index=False)['ca'].sum()
 
 uvc_magasins = df.groupby(['nom_magasin'])['quantite'].sum()
@@ -69,35 +75,10 @@ uvc_magasins = df.groupby(['magasin', 'nom_magasin'], as_index=False)['quantite'
 variables['magasin_uvc_plus_eleve'] = uvc_magasins.loc[uvc_magasins['quantite'].idxmax()]
 variables['magasin_uvc_moins_eleve'] = uvc_magasins.loc[uvc_magasins['quantite'].idxmin()]
 
-magasins = {}
 
-with open('data/CM2_2.csv', newline='') as file:
-    reader = csv.reader(file, delimiter = ';', quotechar = '|')
-
-    for i, row in enumerate(reader):
-        if i == 0:
-            continue
-
-        magasin = row[0]
-        nom_magasin = row[1]
-        ca = float(row[9].replace(',', '.'))
-        quantite = int(row[10])
-
-        if magasin not in magasins:
-            magasins[magasin] = dict(
-                id = magasin,
-                nom = nom_magasin,
-                ca = 0,
-                uvc = 0,
-            )
-
-        magasins[magasin]['ca'] = magasins[magasin]['ca'] + ca
-        magasins[magasin]['uvc'] = magasins[magasin]['uvc'] + quantite
-
-# pprint(variables, file=sys.stderr)
+#-- Generating the CA graphs
 
 max_par_graph = 3
-
 nb_graphs = math.ceil(ca_magasins.shape[0] / max_par_graph)
 
 for graph_i in range(nb_graphs):
@@ -115,13 +96,67 @@ for graph_i in range(nb_graphs):
             values.append(0)
             labels.append(f'_ {i}')
 
-    df = pd.DataFrame({'value': values, 'labels': labels})
+    graph_df = pd.DataFrame({'value': values, 'labels': labels})
     fig, ax = plt.subplots()
-    df.plot.bar(ax=ax, y='value', x='labels')
+    graph_df.plot.bar(ax=ax, y='value', x='labels')
 
     filename = f'assets/ca_{graph_i}.jpg'
     plt.savefig(filename, bbox_inches='tight')
     variables['assets']['ca'].append(filename)
+
+
+#-- Generating the localisation graph
+
+df_localisation = df.groupby('localisation')['ca'].sum()
+variables['ca_par_localisation'] = df_localisation / df_localisation.sum() * 100
+
+fig, ax = plt.subplots()
+labels = []
+
+for localisation, part_ca in variables['ca_par_localisation'].items():
+    part_ca = utility.format_number(part_ca, 1)
+    labels.append(f"{localisation}\n{part_ca}%")
+
+df_localisation.plot.pie(
+    ax=ax,
+    title='Part de CA par localisation',
+    labels=labels,
+    ylabel='',
+)
+
+ax.pie([1], radius=0.6, colors=['white'])
+
+filename = f'assets/ca_par_localisation.jpg'
+plt.savefig(filename, bbox_inches='tight')
+
+
+#-- Generating the activity graph
+
+df_activite = df.groupby('activite')['ca'].sum()
+variables['ca_par_activite'] = df_activite / df_activite.sum() * 100
+
+fig, ax = plt.subplots()
+labels = []
+
+for localisation, part_ca in variables['ca_par_activite'].items():
+    part_ca = utility.format_number(part_ca, 1)
+    labels.append(f"{localisation}\n{part_ca}%")
+
+df_activite.plot.pie(
+    ax=ax,
+    title='Part de CA par activité',
+    labels=labels,
+    ylabel='',
+)
+
+ax.pie([1], radius=0.6, colors=['white'])
+
+filename = f'assets/ca_par_activite.jpg'
+plt.savefig(filename, bbox_inches='tight')
+
+
+#-- Generating the template
+
 
 variables = utility.escape_variables(variables)
 

@@ -11,6 +11,18 @@ def escape_latex(value):
         .replace('{', '\\{') \
         .replace('}', '\\}')
 
-def format_number(number):
-    number = round(number, 2)
-    return '{:,}'.format(number).replace(',', ' ')
+def format_number(number, decimals = 0):
+    number = round(number, decimals)
+    str = '{:,}'.format(number).replace(',', ' ')
+
+    parts = str.split('.')
+
+    if (decimals == 0):
+        return parts[0]
+
+    if len(parts) == 1:
+        parts.append('0' * decimals)
+    elif len(parts[1]) < decimals:
+        parts[1] += '0' * (decimals - len(parts[1]))
+
+    return '.'.join(parts)
