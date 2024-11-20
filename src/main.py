@@ -26,6 +26,9 @@ variables = dict(
     magasin_uvc_moins_eleve = None,
 
     ca_par_localisation = None,
+    ca_par_activite = None,
+
+    ca_par_mode_de_gestion = None,
 
     assets = dict(
         ca = [],
@@ -56,7 +59,8 @@ df = pd.read_csv(
     skiprows=1,
 )
 
-df['ca'] = df['ca'].str.replace(',', '.').astype('float')
+if df.dtypes['ca'] == 'object':
+    df['ca'] = df['ca'].str.replace(',', '.').astype('float')
 
 # print(df)
 
@@ -152,6 +156,34 @@ df_activite.plot.pie(
 ax.pie([1], radius=0.6, colors=['white'])
 
 filename = f'assets/ca_par_activite.jpg'
+plt.savefig(filename, bbox_inches='tight')
+
+
+#-- Mode de gestion
+
+df_ca_par_mode_gestion = df.groupby(['magasin', 'mode_de_gestion'])['ca'].sum()
+variables['ca_par_mode_de_gestion_par_magasin'] = df_ca_par_mode_gestion.groupby(level=0).apply(lambda x: 100 * x / float(x.sum()))
+
+df_ca_par_mode_gestion = df.groupby('mode_de_gestion')['ca'].sum()
+variables['ca_par_mode_de_gestion'] = df_ca_par_mode_gestion / ca_par_mode_gestion.sum() * 100
+
+fig, ax = plt.subplots()
+labels = []
+
+for mode_gestion, part_ca in variables['ca_par_mode_de_gestion_par_magasin'].items():
+    part_ca = utility.format_number(part_ca, 1)
+    labels.append(f"{mode_gestion}\n{part_ca}%")
+
+df_activite.plot.pie(
+    ax=ax,
+    title='Part de CA par mode de gestion',
+    labels=labels,
+    ylabel='',
+)
+
+ax.pie([1], radius=0.6, colors=['white'])
+
+filename = f'assets/ca_par_mode_de_gestion.jpg'
 plt.savefig(filename, bbox_inches='tight')
 
 
