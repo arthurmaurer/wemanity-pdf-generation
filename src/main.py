@@ -80,6 +80,7 @@ variables['magasin_uvc_plus_eleve'] = uvc_magasins.loc[uvc_magasins['quantite'].
 variables['magasin_uvc_moins_eleve'] = uvc_magasins.loc[uvc_magasins['quantite'].idxmin()]
 
 
+
 #-- Generating the CA graphs
 
 max_par_graph = 3
@@ -109,6 +110,7 @@ for graph_i in range(nb_graphs):
     variables['assets']['ca'].append(filename)
 
 
+
 #-- Generating the localisation graph
 
 df_localisation = df.groupby('localisation')['ca'].sum()
@@ -134,6 +136,7 @@ filename = f'assets/ca_par_localisation.jpg'
 plt.savefig(filename, bbox_inches='tight')
 
 
+
 #-- Generating the activity graph
 
 df_activite = df.groupby('activite')['ca'].sum()
@@ -157,6 +160,7 @@ ax.pie([1], radius=0.6, colors=['white'])
 
 filename = f'assets/ca_par_activite.jpg'
 plt.savefig(filename, bbox_inches='tight')
+
 
 
 #-- Mode de gestion
