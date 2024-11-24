@@ -130,19 +130,31 @@
             La visualisation ci-contre présente la répartition des modes de gestion pour les CA du mois :
 
             \begin{itemize}
-                \item{Les points de vente \textbf{<< localisation >>} représentent \textbf{<< part_ca|number(1) >>\%} du CA}
+                \item \textbf{<< part_ca_mode_non_permanent|number >>\%} des achats sont réalisés en \textbf{non permanent}
+                \item \textbf{<< part_ca_mode_permanent|number >>\%} des achats sont réalisés en \textbf{permanent}
             \end{itemize}
 
             \column{0.33\textwidth}
             \centering
 
-            \begin{figure}[h]
+            \begin{figure}
                 \centering
-                \includegraphics[width=1\textwidth]{assets/ca_par_mode_de_gestion}
+                \includegraphics[width=1\textwidth]{assets/ca_total_par_mode_de_gestion}
             \end{figure}
         \end{columns}
 
-        D’après ces visualisations {4} points de vente ont commandé uniquement en PERMANENT.
+        \begin{figure}[h]
+            \centering
+            \includegraphics[height=3cm]{assets/ca_magasins_par_mode_de_gestion}
+        \end{figure}
+
+        D’après ces visualisations, \textbf{<< magasins_permanents_seulement|length >>}
+        << pluralize(
+            magasins_permanents_seulement|length,
+            'point de vente a commandé',
+            'points de vente ont commandé',
+        ) >>
+        \textbf{uniquement en PERMANENT.}
     \end{frame}
 
     \subsection{Non permanent}

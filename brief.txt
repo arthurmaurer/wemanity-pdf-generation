@@ -46,3 +46,7 @@ Affichage des nombres : séparateur pour les milliers ? (espace ou virgule)
     -> comment savoir qui n'a pas commandé ?
         Le CSV ne répertorie-t-il pas uniquement les commandes ?
     -> Un pdf est destiné à un seul fournisseur ? Si oui, comment le programme connaitra le fournisseur destinataire ?
+
+----
+
+XXX est le point de vente ayant command´e le plus d’UVC : 5 753 UVC au mois de ???

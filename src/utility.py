@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 def escape_variables(variables):
     for key, value in variables.items():
         if type(value) == str:
@@ -26,3 +28,13 @@ def format_number(number, decimals = 0):
         parts[1] += '0' * (decimals - len(parts[1]))
 
     return '.'.join(parts)
+
+def pluralize(number, singular, plural):
+     if number <= 1:
+         return singular
+     else:
+         return plural
+
+def save_donut_chart(ax, filename):
+    ax.pie([1], radius=0.6, colors=['white'])
+    plt.savefig(filename, bbox_inches='tight')
