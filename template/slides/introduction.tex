@@ -1,0 +1,22 @@
+\section{Introduction}
+
+\begin{frame}
+    \tiny
+    \frametitle{Introduction}
+    Ce rapport traite les données du mois de << periode >> << annee >>. Il analyse en détail les achats de nos points de vente.\par
+
+    Quelques informations clefs :
+
+    \begin{itemize}
+        \item{Le \textbf{CA} total du mois dernier s’élève à \textbf{<< ca_total_mois|number(2) >>€}.}
+        \item{\textbf{<< nb_uvc_mois|number >> UVC} ont été commandés le mois dernier par nos points de vente}
+        \item{\textbf{<< nb_ref_mois|number >> références} articles ont été commandées}
+        \item{\textbf{<< nb_magasins|number >> points de vente} ont commandé vos articles}
+        \item{Voici la liste des points de vente qui n’ont pas réalisé de commande sur vos références le mois dernier : << ', '.join(list_mag_nop) >>.}
+    \end{itemize}
+
+    Dans la première partie, l’analyse est détaillée par point de vente.\par
+    Dans la deuxième partie, l’analyse est détaillée par mode de gestion.\par
+    Dans la troisième partie, l’analyse est détaillée par article.\par
+    Pour rappel, vous avez souscrit au contrat << nom_contrat >> le << date_contrat >> pour une mise à disposition des données mensuelles détaillées à l’article et par point de vente.\par
+\end{frame}

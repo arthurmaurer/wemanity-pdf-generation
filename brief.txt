@@ -50,3 +50,5 @@ Affichage des nombres : séparateur pour les milliers ? (espace ou virgule)
 ----
 
 XXX est le point de vente ayant command´e le plus d’UVC : 5 753 UVC au mois de ???
+
+startct

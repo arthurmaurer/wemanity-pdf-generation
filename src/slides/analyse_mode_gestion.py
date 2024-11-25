@@ -7,6 +7,8 @@ def generate(context, df):
     magasins = {}
     context['part_ca_mode_permanent'] = 0
     context['part_ca_mode_non_permanent'] = 0
+    context['ca_mode_permanent'] = 0
+    context['ca_mode_non_permanent'] = 0
     total = 0
 
     for i, row in df.iterrows():
@@ -21,18 +23,18 @@ def generate(context, df):
             }
 
         if row['mode_de_gestion'] == 'PERMANENT':
-            context['part_ca_mode_permanent'] += ca
+            context['ca_mode_permanent'] += ca
             magasins[nom_magasin]['permanent'] += ca
 
         if row['mode_de_gestion'] == 'NON PERMANENT':
-            context['part_ca_mode_non_permanent'] += ca
+            context['ca_mode_non_permanent'] += ca
             magasins[nom_magasin]['non_permanent'] += ca
 
         magasins[nom_magasin]['total'] += ca
         total += ca
 
-    context['part_ca_mode_permanent'] /= total / 100
-    context['part_ca_mode_non_permanent'] /= total / 100
+    context['part_ca_mode_permanent'] = context['ca_mode_permanent'] / total * 100
+    context['part_ca_mode_non_permanent'] = context['ca_mode_non_permanent'] / total * 100
 
     context['magasins_permanents_seulement'] = []
 
@@ -58,7 +60,7 @@ def generate(context, df):
 
     ax.pie(values, labels=labels)
 
-    utility.save_donut_chart(ax, filename=f'assets/ca_total_par_mode_de_gestion.jpg')
+    utility.save_donut_chart(ax, filename=f'assets/__ca_total_par_mode_de_gestion.jpg')
 
 
     #-- Graphique CA par magasin
@@ -77,6 +79,7 @@ def generate(context, df):
     width = 0.4
 
     fig, ax = plt.subplots()
+    fig.set_size_inches(10, 5)
     ax.set_ylabel('Part du CA')
     ax.set_title('CA par mode de gestion')
     ax.set_xticks(x)
@@ -106,9 +109,7 @@ def generate(context, df):
             va='bottom',
         )
 
-        i += 1
-
     ax.legend()
 
-    filename = f'assets/ca_magasins_par_mode_de_gestion.jpg'
+    filename = f'assets/__ca_magasins_par_mode_de_gestion.jpg'
     plt.savefig(filename, bbox_inches='tight')

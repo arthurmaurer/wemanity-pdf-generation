@@ -38,3 +38,17 @@ def pluralize(number, singular, plural):
 def save_donut_chart(ax, filename):
     ax.pie([1], radius=0.6, colors=['white'])
     plt.savefig(filename, bbox_inches='tight')
+
+def human_join(list):
+    str = ''
+
+    for i, item in enumerate(list):
+        if str != '':
+            if i < len(list) - 1:
+                str += ', '
+            else:
+                str += ' et '
+
+        str += item
+
+    return str

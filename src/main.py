@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import math
 import utility
-
+import pretty_errors
+import os
 
 context = dict(
     fournisseur = 'Fournisseur ABC',
@@ -40,9 +41,10 @@ context = dict(
 
 
 # -------------------
+current_dir = os.path.dirname(os.path.realpath(__file__))
 
 env = jinja2.Environment(
-    loader = jinja2.FileSystemLoader(searchpath = './'),
+    loader = jinja2.FileSystemLoader(searchpath = f'{current_dir}/../template'),
     autoescape = jinja2.select_autoescape(),
     trim_blocks = True,
     variable_start_string = '<<',
@@ -52,6 +54,7 @@ env = jinja2.Environment(
 )
 
 env.filters['number'] = utility.format_number
+env.filters['human_join'] = utility.human_join
 env.globals['pluralize'] = utility.pluralize
 
 # -------------------
@@ -83,12 +86,18 @@ slides.activite.generate(context, df)
 import slides.analyse_mode_gestion
 slides.analyse_mode_gestion.generate(context, df)
 
+import slides.non_permanent
+slides.non_permanent.generate(context, df)
+
+import slides.permanent
+slides.permanent.generate(context, df)
+
 #-- Generating the template
 
 
 context = utility.escape_variables(context)
 
-template = env.get_template('jinja2_template.tex')
+template = env.get_template('rapport.tex')
 latex = template.render(**context)
 
 print(latex)

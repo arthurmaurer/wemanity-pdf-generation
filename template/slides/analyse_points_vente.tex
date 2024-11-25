@@ -1,0 +1,29 @@
+\section{Analyse des points de vente}
+
+\begin{frame}
+    \tiny
+    \frametitle{Analyse des points de vente}
+
+    Les visualisations ci-dessous représente le CA (PERMANENT + NON PERMANENT) par points de vente.\par
+
+    <@ set column_count = 3  @>
+
+    <@ for row in assets.ca|batch(column_count) @>
+        \begin{columns}
+            <@ for img in row @>
+                \column{<< 1 / column_count >>\textwidth}
+                    \centering
+                    \begin{figure}[h]
+                        \centering
+                        \includegraphics[width=1\textwidth]{<< img >>}
+                    \end{figure}
+            <@ endfor @>
+        \end{columns}
+    <@ endfor @>
+
+    Le point de vente avec le CA le plus élevé à \textbf{<< magasin_ca_plus_eleve.ca|number >>€}, est \textbf{<< magasin_ca_plus_eleve.nom_magasin >>}.\par
+    Le point de vente \textbf{<< magasin_ca_moins_eleve.nom_magasin >>} avec \textbf{<< magasin_ca_moins_eleve.ca|number >>€} représente le plus petit CA du mois.\par
+    La visualisation ci-dessus présente la somme des quantités commandées (PERMANENT + NON PERMANENT) par point de vente.\par
+    \textbf{<< magasin_uvc_plus_eleve.nom_magasin >>} est le point de vente ayant commandé le plus d’UVC : \textbf{<< magasin_uvc_plus_eleve.quantite|number >> UVC au mois de ???}.\par
+    Le point de vente \textbf{<< magasin_uvc_moins_eleve.nom_magasin >>} avec : \textbf{<< magasin_uvc_moins_eleve.quantite|number >> UVC} représente la plus faible quantité du mois.\par
+\end{frame}
